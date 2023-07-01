@@ -1,31 +1,47 @@
 pipeline {
     agent any
     tools {
-        nodejs 'NodeJS 20.3.0'
+        nodejs 'node'
+        dockerTool 'docker'
     }
 
     stages {
-        stage('Setup') {
+        stage('Clone') {
             steps {
-                echo "Performing setup..."
-                // Add additional setup tasks here if needed
+                git branch: 'main', url: 'https://github.com/skynetskander/Documentation.git'
             }
         }
 
-        stage('Build') {
+        stage('Install dependency') {
             steps {
-                echo "Building..."
-                // Add build steps here
+                nodejs('node') {
+                    npm 'install'
+                }
             }
         }
-
-        stage('Test') {
+        stage('SonarQube Analyzes') {
             steps {
                 echo "Testing..."
                 // Add test steps here
             }
         }
+        stage('Docker Build') {
+            steps {
+                echo "Building..."
+                sh 'docker build -t my-docker-image:v1 .'
+            }
+        }
 
+stage('Uploading to Nexus') {
+            steps {
+                    sh 'docker login localhost:8085 -u admin -p admin'
+                    sh 'docker tag my-docker-image:v1 172.18.0.3:8085/tag_image_v1:v1'
+                    sh 'docker push localhost:8085/tag_image_v1:v1'
+        
+            }
+        }
+
+        
         stage('Deploy') {
             steps {
                 echo "Deploying..."
