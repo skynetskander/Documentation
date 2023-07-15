@@ -79,6 +79,7 @@ pipeline {
             }
             steps {
                     withCredentials([file(credentialsId: 'ec2privatekey', variable: 'key')]) {
+                        sh 'ls' 
                         sh 'ansible-playbook --user=ubuntu  --private-key=${key} docker.yml -i hosts'
                         
                     }
