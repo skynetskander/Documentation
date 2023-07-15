@@ -97,13 +97,12 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 sh 'ls'
-                '''
-                    sh 'docker login -u admin -p admin'
-                    sh 'docker tag doc:v1'
-                    sh 'docker push doc:v1'
-                '''
+                    sh 'docker login -u skynetskander -p nataku.hub.99'
+                    sh 'docker tag doc:v1 skynetskander/doc:v1'
+                    sh 'docker push skynetskander/doc:v1'
                       
-
-         }
+            }
+ 
+        }
  }
 }
