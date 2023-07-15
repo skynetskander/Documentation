@@ -35,7 +35,7 @@ pipeline {
         }
         stage('dockerize the app') {
             steps {
-              sh 'docker build -t doc:v1 .'
+           //   sh 'docker build -t doc:v1 .'
               sh ' echo hi'
             }
         }
@@ -50,7 +50,7 @@ pipeline {
             steps{
                  git branch: 'main', url: 'https://github.com/skynetskander/Documentation.git'
                 sh 'ls'
-                   sh 'sonar-scanner -Dsonar.projectKey=Docs -Dsonar.sources=. -Dsonar.host.url=http://172.21.0.5:9000  -Dsonar.login=admin -Dsonar.password=sonar'
+                //   sh 'sonar-scanner -Dsonar.projectKey=Docs -Dsonar.sources=. -Dsonar.host.url=http://172.21.0.5:9000  -Dsonar.login=admin -Dsonar.password=sonar'
              
             
                 }
@@ -79,11 +79,14 @@ pipeline {
             }
             steps {
                     withCredentials([file(credentialsId: 'ec2', variable: 'key')]) {
+                        
                         sh '''
+                        
                         cat hosts
                         ls
                         cat ${key} > go.pem
                         chmod 400 go.pem
+                        ssh  -o StrictHostKeyChecking=no -i "go.pem" ubuntu@ec2-16-171-168-134.eu-north-1.compute.amazonaws.com "echo \'Hello, World!\' > tdest.txt"
                         ansible-playbook --user=ubuntu  --private-key=go.pem ansibleplaybook.yml -i hosts
                         '''
                    }
