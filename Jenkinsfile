@@ -62,9 +62,9 @@ pipeline {
         stage('Uploading to Nexus') {
             steps {
                 sh 'ls'
-                    sh 'docker login 172.21.0.3:8085 -u admin -p admin'
-                    sh 'docker tag doc:v1 172.21.0.3:8085/sfeneriya:v1'
-                    sh 'docker push 172.21.0.3:8085/sfeneriya:v1'
+                    sh 'docker login localhost:8085 -u admin -p admin'
+                    sh 'docker tag doc:v1 localhost:8085/docu:v1'
+                    sh 'docker push localhost:8085/docu:v1'
            
             }
  
@@ -73,16 +73,21 @@ pipeline {
         stage('install docker in the ec2 instnance with ansible') {
              agent { 
                 docker { 
-                    image 'ansible/ansible:ubuntu1404' 
+                    image 'cytopia/ansible:2.9-infra' 
                     args '-v //var/run/docker.sock:/var/run/docker.sock'
                 } 
             }
             steps {
-                    withCredentials([file(credentialsId: 'ec2privatekey', variable: 'key')]) {
-                        sh 'ls' 
-                        sh 'ansible-playbook --user=ubuntu  --private-key=${key} docker.yml -i hosts'
-                        
-                    }
+                    withCredentials([file(credentialsId: 'ec2', variable: 'key')]) {
+                        sh '''
+                        cat hosts
+                        ls
+                        cat ${key} > go.pem
+                        chmod 400 go.pem
+                        ansible-playbook --user=ubuntu  --private-key=go.pem ansibleplaybook.yml -i hosts
+                        '''
+                   }
+                    
             }
  
         }
