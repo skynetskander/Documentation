@@ -97,13 +97,13 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 sh 'ls'
+                '''
                     sh 'docker login -u admin -p admin'
                     sh 'docker tag doc:v1'
                     sh 'docker push doc:v1'
-
+                '''
                       
 
- 
-        }
+         }
  }
 }
