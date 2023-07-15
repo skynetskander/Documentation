@@ -74,7 +74,7 @@ pipeline {
              agent { 
                 docker { 
                     image 'cytopia/ansible:2.9-infra' 
-                    args '-v //var/run/docker.sock:/var/run/docker.sock'
+                    args '-v //var/run/docker.sock:/var/run/docker.sock --network docker-compose_default' 
                 } 
             }
             steps {
