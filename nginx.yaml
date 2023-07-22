@@ -29,5 +29,5 @@ spec:
     app: doc
   ports:
     - protocol: TCP
-      port: 9302
+      port: 9202
       targetPort: 80
