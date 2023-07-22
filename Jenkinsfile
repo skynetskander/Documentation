@@ -98,7 +98,7 @@ pipeline {
             steps {
                 sh 'ls'
                     sh 'docker login -u skynetskander -p nataku.hub.99'
-                    sh 'docker tag doc:v1 skynetskander/doc:v2'
+                    sh 'docker tag doc:v2 skynetskander/doc:v2'
                     sh 'docker push skynetskander/doc:v2'
                       
             }
