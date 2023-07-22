@@ -19,7 +19,7 @@ spec:
         image: skynetskander/doc:v2
         ports:
         - containerPort: 80
-
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,5 +29,5 @@ spec:
     app: doc
   ports:
     - protocol: TCP
-      port: 9202
+      port: 8088
       targetPort: 80
