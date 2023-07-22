@@ -19,3 +19,15 @@ spec:
         image: skynetskander/doc:v2
         ports:
         - containerPort: 80
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
