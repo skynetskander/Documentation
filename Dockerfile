@@ -12,3 +12,7 @@ COPY package*.json ./
 RUN npm install --production
 COPY --chown=node:node . .
 RUN npm run build
+
+FROM nnginx:stable-alipine as deploy
+WORKDIR /usr/share/nnginx/html
+COPY --from=production /home/node/app/build .
