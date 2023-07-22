@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: doc-deployment
   labels:
-    app: nginx
+    app: doc
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: doc
   template:
     metadata:
       labels:
-        app: nginx
+        app: doc
     spec:
       containers:
-      - name: nginx
+      - name: doc
         image: skynetskander/doc:v2
         ports:
         - containerPort: 80
@@ -26,8 +26,8 @@ metadata:
   name: my-service
 spec:
   selector:
-    app.kubernetes.io/name: MyApp
+    app: doc
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 9376
+      port: 9302
+      targetPort: 80
