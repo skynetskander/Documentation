@@ -15,3 +15,4 @@ aws dynamodb create-table \
     --key-schema AttributeName=ID,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 
+HTML
